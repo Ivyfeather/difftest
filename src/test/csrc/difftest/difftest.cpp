@@ -76,6 +76,16 @@ int difftest_step() {
   return 0;
 }
 
+int difftest_a0() {
+  for (int i = 0; i < NUM_CORES; i++) {
+    int ret = difftest[i]->compare_a0();
+    if (ret) {
+      return ret;
+    }
+  }
+  return 0;
+}
+
 Difftest::Difftest(int coreid) : id(coreid) {
   state = new DiffState();
   clear_step();
@@ -83,6 +93,15 @@ Difftest::Difftest(int coreid) : id(coreid) {
 
 void Difftest::update_nemuproxy(int coreid, size_t ram_size = 0) {
   proxy = new DIFF_PROXY(coreid, ram_size);
+}
+
+int Difftest::compare_a0() {
+  if (dut_regs_ptr[10] == 0x0 || dut_regs_ptr[10] == 0x6b) {
+    printf("%7s at value 0x%016lx\n",
+          reg_name[10], dut_regs_ptr[10]);
+    return 1;
+  }
+  return 0;
 }
 
 int Difftest::step() {

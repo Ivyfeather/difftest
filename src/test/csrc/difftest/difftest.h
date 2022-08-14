@@ -278,6 +278,7 @@ public:
   uint32_t num_commit = 0; // # of commits if made progress
   bool has_commit = false;
   // Trigger a difftest checking procdure
+  virtual int compare_a0();
   virtual int step();
   void update_nemuproxy(int, size_t);
   inline bool get_trap_valid() {
@@ -412,6 +413,7 @@ protected:
 extern Difftest **difftest;
 int difftest_init();
 int difftest_step();
+int difftest_a0();
 int difftest_state();
 int init_nemuproxy(size_t);
 

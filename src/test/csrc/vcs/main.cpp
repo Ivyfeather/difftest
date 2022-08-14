@@ -27,6 +27,7 @@ static bool has_reset = false;
 static char bin_file[256] = "ram.bin";
 static char *flash_bin_file = NULL;
 static bool enable_difftest = true;
+static bool compare_a0 = false;
 static int max_cycles = 0;
 
 extern "C" void set_bin_file(char *s) {
@@ -51,6 +52,12 @@ extern "C" void set_diff_ref_so(char *s) {
 extern "C" void set_no_diff() {
   printf("disable diff-test\n");
   enable_difftest = false;
+}
+
+extern "C" void set_compare_a0() {
+  printf("customized compare a0\n");
+  enable_difftest = false;
+  compare_a0 = true;
 }
 
 extern "C" void set_max_cycles(long mc) {
@@ -103,6 +110,8 @@ extern "C" int simv_step() {
 
   if (enable_difftest) {
     return difftest_step();
+  } else if (compare_a0) {
+    return difftest_a0();
   } else {
     return 0;
   }

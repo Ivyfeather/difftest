@@ -18,6 +18,7 @@ import "DPI-C" function void set_bin_file(string bin);
 import "DPI-C" function void set_flash_bin(string bin);
 import "DPI-C" function void set_diff_ref_so(string diff_so);
 import "DPI-C" function void set_no_diff();
+import "DPI-C" function void set_compare_a0();
 import "DPI-C" function void set_max_cycles(int mc);
 import "DPI-C" function void simv_init();
 import "DPI-C" function int simv_step();
@@ -95,6 +96,10 @@ initial begin
   // disable diff-test
   if ($test$plusargs("no-diff")) begin
     set_no_diff();
+  end
+  // customized
+  if ($test$plusargs("compare-a0")) begin
+      set_compare_a0();
   end
   // max cycles to execute, no limit for default
   if ($test$plusargs("max-cycles")) begin
